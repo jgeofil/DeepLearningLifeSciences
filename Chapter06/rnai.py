@@ -9,7 +9,7 @@ import matplotlib.pyplot as plot
 
 features = tf.keras.Input(shape=(21, 4))
 prev = features
-for i in range(2):
+for _ in range(2):
     prev = layers.Conv1D(filters=10, kernel_size=10, activation=tf.nn.relu, padding='same')(prev)
     prev = layers.Dropout(rate=0.3)(prev)
 output = layers.Dense(units=1, activation=tf.math.sigmoid)(layers.Flatten()(prev))
@@ -28,7 +28,7 @@ valid = dc.data.DiskDataset('valid_siRNA')
 # Train the model, tracking its performance on the training and validation datasets.
 
 metric = dc.metrics.Metric(dc.metrics.pearsonr, mode='regression')
-for i in range(20):
+for _ in range(20):
     model.fit(train, nb_epoch=10)
     print(model.evaluate(train, [metric])['pearsonr'])
     print(model.evaluate(valid, [metric])['pearsonr'])

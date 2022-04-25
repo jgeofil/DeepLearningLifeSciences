@@ -37,15 +37,12 @@ def NeutraliseCharges(smiles, reactions=None):
         reactions=_reactions
     mol = Chem.MolFromSmiles(smiles)
     replaced = False
-    for i,(reactant, product) in enumerate(reactions):
+    for reactant, product in reactions:
         while mol.HasSubstructMatch(reactant):
             replaced = True
             rms = AllChem.ReplaceSubstructs(mol, reactant, product)
             mol = rms[0]
-    if replaced:
-        return (Chem.MolToSmiles(mol,True), True)
-    else:
-        return (smiles, False)
+    return (Chem.MolToSmiles(mol,True), True) if replaced else (smiles, False)
 
 if __name__ == "__main__":
     for row in open(sys.argv[1]):

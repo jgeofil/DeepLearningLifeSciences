@@ -11,7 +11,7 @@ import numpy as np
 features = tf.keras.Input(shape=(101, 4))
 accessibility = tf.keras.Input(shape=(1,))
 prev = features
-for i in range(3):
+for _ in range(3):
     prev = layers.Conv1D(filters=15, kernel_size=10, activation=tf.nn.relu, padding='same')(prev)
     prev = layers.Dropout(rate=0.5)(prev)
 prev = layers.Concatenate()([layers.Flatten()(prev), accessibility])
@@ -37,14 +37,14 @@ for line in open('accessibility.txt'):
 # Define a generator function to produce batches.
 
 def generate_batches(dataset, epochs):
-    for epoch in range(epochs):
+    for _ in range(epochs):
         for X, y, w, ids in dataset.iterbatches(batch_size=1000, pad_batches=True):
             yield ([X, np.array([span_accessibility[id] for id in ids])], [y], [w])
 
 # Train the model, tracking its performance on the training and validation datasets.
 
 metric = dc.metrics.Metric(dc.metrics.roc_auc_score)
-for i in range(20):
+for _ in range(20):
     model.fit_generator(generate_batches(train, epochs=10))
     print(model.evaluate_generator(generate_batches(train, 1), [metric]))
     print(model.evaluate_generator(generate_batches(valid, 1), [metric]))

@@ -8,7 +8,7 @@ import tensorflow.keras.layers as layers
 
 features = tf.keras.Input(shape=(101, 4))
 prev = features
-for i in range(3):
+for _ in range(3):
     prev = layers.Conv1D(filters=15, kernel_size=10, activation=tf.nn.relu, padding='same')(prev)
     prev = layers.Dropout(rate=0.5)(prev)
 logits = layers.Dense(units=1)(layers.Flatten()(prev))
@@ -29,7 +29,7 @@ valid = dc.data.DiskDataset('valid_dataset')
 # Train the model, tracking its performance on the training and validation datasets.
 
 metric = dc.metrics.Metric(dc.metrics.roc_auc_score)
-for i in range(20):
+for _ in range(20):
     model.fit(train, nb_epoch=10)
     print(model.evaluate(train, [metric]))
     print(model.evaluate(valid, [metric]))

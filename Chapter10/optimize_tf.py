@@ -9,7 +9,7 @@ import numpy as np
 
 features = tf.keras.Input(shape=(101, 4))
 prev = features
-for i in range(3):
+for _ in range(3):
     prev = layers.Conv1D(filters=15, kernel_size=10, activation=tf.nn.relu, padding='same')(prev)
     prev = layers.Dropout(rate=0.5)(prev)
 logits = layers.Dense(units=1)(layers.Flatten()(prev))
@@ -34,7 +34,7 @@ best_score = float(model.predict_on_batch([dc.metrics.to_one_hot(best_sequence, 
 
 # Make random changes to it, and keep them if the output increases.
 
-for step in range(1000):
+for _ in range(1000):
     index = np.random.randint(101)
     base = np.random.randint(4)
     if best_sequence[index] != base:

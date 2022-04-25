@@ -17,7 +17,7 @@ labels = []
 for f in os.listdir(label_dir):
   if f.endswith('.TIF'):
     for row, blur in zip(rows, blurs):
-      fname = f.replace('_F1', '_F%d'%blur).replace('_A', '_%s'%row)
+      fname = f.replace('_F1', '_F%d'%blur).replace('_A', f'_{row}')
       files.append(os.path.join(image_dir, fname))
       labels.append(os.path.join(label_dir, f))
 dataset = dc.data.ImageDataset(files, labels)

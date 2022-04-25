@@ -27,7 +27,7 @@ model = AspuruGuzikAutoEncoder(tokens, max_length, model_dir='vae', batch_size=b
 # Train the model.
 
 def generate_sequences(epochs):
-  for i in range(epochs):
+  for _ in range(epochs):
     for s in train_smiles:
       yield (s, s)
 
